@@ -1,0 +1,106 @@
+.contact-home {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 200px;
+    margin-top: 70px;
+
+    @media (max-width: 991.98px) {
+        padding: 0 90px;
+    }
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 15px;
+    }
+
+    & .company {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 200px;
+
+        gap: 12px;
+
+        & .nav-link {
+            display: block;
+            font-size: 22px;
+            text-align: center;
+            text-decoration: none;
+            color: #141416;
+        }
+
+        .contact-icon {
+          margin-right: 10px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+
+        &__email {
+            font-size: 18px;
+            color: #141416;
+        }
+    }
+
+    & .mess {
+
+      @media (max-width: 700px) {
+        width: 300px;
+        margin-top: 65px;
+      }
+
+        &-text {
+            font-size: 18px;
+            color: #141416;
+        }
+
+        &-input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            padding: 3px 3px 3px 15px;
+            margin: 2px;
+
+            text-transform: inherit;
+
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid #141416;
+
+            &:hover {
+                border-width: 2px;
+                margin-bottom: 1px;
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            @media (max-width: 700px) {
+              width: 90%;
+            }
+        }
+
+        &-btn {
+            padding: 15px 25px;
+            margin-top: 25px;
+
+            background-color: transparent;
+            font-size: 21px;
+            border-radius: 5px;
+            border: 1px solid #141416;
+            transition: all 0.1s ease-in;
+
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+                background-color: #000;
+            }
+        }
+    }
+}

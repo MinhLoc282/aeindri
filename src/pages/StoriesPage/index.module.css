@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  animation: fadeIn 2s;
+}
+
+.containerInfo {
+  display: flex;
+  width: 70%;
+  margin-top: 20px;
+}
+
+.avatar {
+  height: 230px;
+
+  border: 2px solid black;
+  border-radius: 60%;
+  filter: grayscale(1);
+  box-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+.textContainer {
+  margin-left: 70px;
+}
+
+.text {
+  font-size: 20px;
+}
+
+.name {
+  margin-top: 40px;
+  font-style: italic;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.storyContainer {
+  width: 70%;
+  margin-top: 100px;
+}
+
+.storyTitle {
+  margin-bottom: 50px;
+
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.storyDetail {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.partnerContainer {
+  width: 70%;
+  margin-top: 100px;
+}
+
+.partnerButtonContainer {
+  display: flex;
+}
+
+.partnerTitle {
+  margin-bottom: 50px;
+
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.partnerText {
+  font-size: 23px;
+  line-height: 40px;
+  margin-right: 20px;
+}
+
+.partnerButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+
+  background-color: black;
+  color: white;
+  border-radius:  7px;
+  font-size: 24px;
+  font-weight: bold;
+
+  justify-content: center;
+  align-items: center;
+}
+.partnerButton div {
+  transform: translate(0,-5%);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0}
+  to { opacity: 1; }
+}

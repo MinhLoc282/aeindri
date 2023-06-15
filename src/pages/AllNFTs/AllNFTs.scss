@@ -1,0 +1,22 @@
+
+
+.nft {
+  padding: 30px;
+
+    &--item {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 50px 100px 150px 100px;
+
+      gap: 40px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+
+      border-radius: 10px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #000;
+    }
+}

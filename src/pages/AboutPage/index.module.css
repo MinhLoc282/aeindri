@@ -1,0 +1,145 @@
+.AboutPage {
+  animation-name: fadeIn;
+  animation-duration: 2s;
+}
+
+.container {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+}
+
+.videoContainer {
+  display: flex;
+  width: 980px;
+  height: 362px;
+  margin-top: 50px;
+
+  position: relative;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.videoText {
+  position: absolute;
+  width: 70%;
+
+  font-size: 56px;
+  text-align: center;
+  font-family: customFonts;
+  line-height: 72px;
+  text-shadow: rgb(255 255 255 / 60%) 1px 1px 1px, rgb(0 0 0 / 60%) -1px -1px 1px;
+}
+
+.textContainer {
+  width: 980px;
+  margin-top: 70px;
+
+  font-size: 38px;
+  font-family: customFonts;
+  font-weight: bold;
+}
+
+.text {
+  margin-top: 50px;
+
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.8em;
+}
+
+.title {
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  text-align: center;
+  line-height: 1.2em;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.analyticsContainer {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.analyticsItem {
+  display: flex;
+  width: 100%;
+  height: 225px;
+
+  color: white;
+  flex-direction: row;
+  background-color: rgb(20,20,22);
+  border-width: 1px;
+  border-color: rgb(60, 60, 60);
+  border-left-style: solid;
+  border-bottom-style: solid;
+}
+
+.analyticsPic {
+  display: flex;
+  min-width: 196px;
+  width: 20%;
+
+  background-color: rgb(20,20,22);
+  border-width: 1px;
+  border-color: rgb(60, 60, 60);
+  border-right-style: solid;
+  justify-content: center;
+  align-items: center;
+}
+
+.analyticsTextContainer {
+  width: 80%;
+  padding-left: 70px;
+  align-self: center;
+}
+
+.analyticsTextTitle {
+  margin-bottom: 20px;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.analyticsText {
+  line-height: 1.8em;
+  font-size: 16px;
+}
+
+.video {
+  height: 338px;
+  width: 100%;
+
+  object-fit: cover;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0}
+  to { opacity: 1; }
+}
+
+@media screen and (max-width: 1100px) {
+  .video {
+    height: 352px;
+  }
+
+  .videoContainer {
+    width: 90%;
+  }
+
+  .videoText {
+    width: 95%;
+    font-size: 45px;
+    line-height: 46px;
+  }
+
+  .textContainer {
+    width: 90%;
+    text-align: center;
+    font-size: 35px;
+  }
+}

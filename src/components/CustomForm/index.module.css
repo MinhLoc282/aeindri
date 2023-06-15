@@ -1,0 +1,14 @@
+.sending {
+  position: absolute;
+  color: blue;
+}
+
+.error {
+  position: absolute;
+  color: red;
+}
+
+.success {
+  position: absolute;
+  color: green;
+}

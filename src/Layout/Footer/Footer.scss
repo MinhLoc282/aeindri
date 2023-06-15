@@ -1,0 +1,102 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 441px;
+    width: 100%;
+
+    background-color: #fff;
+
+    &__content {
+        display: flex;
+        margin-bottom: 20px;
+
+        @media screen and (max-width: 800px) {
+          width: 80%;
+          justify-content: space-around;
+        }
+
+        &--colContainer {
+          display: flex;
+          flex-direction: row;
+
+          @media screen and (max-width: 800px) {
+            flex-direction: column;
+          }
+        }
+
+        &--col {
+            display: flex;
+            flex-direction: column;
+
+            padding: 0 25px;
+
+            @media screen and (max-width: 800px) {
+              padding: 0 5px;
+            }
+
+            & .nav-link {
+                height: 22.4px;
+                margin-bottom: 5px;
+
+                font-size: 14px;
+                color: #8a8a8a;
+                text-decoration: none;
+            }
+
+            & .nav-link__btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 43px;
+                width: 145px;
+                margin-bottom: 25px;
+
+                letter-spacing: 0.1rem;
+                border: 1px solid #000;
+
+                transition: all 0.15s ease-in;
+
+                &:hover {
+                    color: #fff;
+                    background-color: #000;
+                }
+            }
+        }
+    }
+
+    &__section {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+
+        font-size: 14px;
+        color: #8a8a8a;
+
+        @media screen and (max-width: 700px) {
+          flex-direction: column;
+          justify-content:  center;
+          align-items: center;
+        }
+
+        &--left {
+            // margin-right: 120px;
+        }
+
+        &--right {
+            // margin-left: 120px;
+            & .nav-link {
+                margin-left: 20px;
+
+                font-size: 14px;
+                color: #8a8a8a;
+                text-decoration: none;
+            }
+
+            @media screen and (max-width: 700px) {
+              margin-top: 10px;
+            }
+        }
+    }
+}

@@ -1,0 +1,55 @@
+.ESGPage {
+  animation: fadeIn 2s;
+}
+
+.container {
+  display: flex;
+
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+
+  font-size: 38px;
+  font-weight: bold;
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+}
+
+.titleMobile {
+  display: none;
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+
+  font-size: 38px;
+  font-weight: bold;
+
+  @media screen and (max-width: 800px) {
+    display: block;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.text {
+  width: 60%;
+  text-align: center;
+  line-height: 1.8em;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0}
+  to { opacity: 1; }
+}

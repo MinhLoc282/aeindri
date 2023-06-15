@@ -1,0 +1,38 @@
+
+
+.nft {
+  padding: 30px;
+
+  @media screen and (max-width: 500px) {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+    &--item {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(372px, max-content));
+      justify-content: center;
+      padding: 50px 100px 150px 100px;
+
+      gap: 40px;
+
+      @media screen and (max-width: 500px) {
+        grid-template-columns: repeat(auto-fit, minmax(144px, max-content));
+        padding: 50px 0 0 0;
+        gap: 15px;
+      }
+    }
+
+    .btn {
+      padding: 10px 20px;
+
+      border-radius: 10px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #000;
+
+      @media screen and (max-width: 500px) {
+        margin-left: 10px;
+      }
+    }
+}

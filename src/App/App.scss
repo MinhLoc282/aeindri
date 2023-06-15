@@ -1,0 +1,26 @@
+@font-face {
+  font-family: customFont;
+  src: url(../assets/fonts/Versailles-Regular.ttf);
+}
+
+* {
+  margin: 0;
+  font-family: customFont;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  scroll-behavior: smooth;
+
+  user-select: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html,body{
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}

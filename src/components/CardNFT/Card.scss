@@ -1,0 +1,128 @@
+.card {
+    position: relative;
+
+    transition: all .4s ease;
+
+    &__img {
+        width: 372px;
+        height: 464px;
+        object-fit: cover;
+
+        @media screen and (max-width: 500px) {
+          width: 144px;
+          height: 165px;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        transition: all .4s ease;
+
+        color: #fff;
+        background-color: #141416;
+
+        @media screen and (max-width: 500px) {
+          padding: 10px;
+        }
+
+        &--title {
+            font-size: 23px;
+            padding: 15px 0 10px 0;
+            transition: all .4s ease;
+
+            @media screen and (max-width: 500px) {
+              padding: 0;
+              font-size: 10.5px;
+            }
+        }
+
+        &--discription {
+            font-size: 15px;
+            padding: 10px 0;
+            transition: all .4s ease;
+
+            @media screen and (max-width: 500px) {
+              padding: 0;
+              font-size: 7px;
+            }
+        }
+
+        &--money {
+            font-size: 19px;
+            padding: 10px 0 0 0;
+            transition: all .4s ease;
+
+            @media screen and (max-width: 500px) {
+              padding: 0;
+              font-size: 7px;
+            }
+        }
+
+        &--btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 120px;
+            padding: 0;
+
+            position: relative;
+
+            opacity: 0;
+            visibility: hidden;
+
+            text-align: start;
+            font-family: Helvetica, Sans-Serif;
+            font-size: 14px;
+
+            border: none;
+            color: #fff;
+            background-color: transparent;
+
+            transition: all .4s ease;
+
+            cursor: pointer;
+
+            &:hover {
+                font-family: customFont;
+            }
+
+            & i {
+
+            }
+
+            @media screen and (max-width: 500px) {
+              font-size: 7px;
+            }
+        }
+    }
+
+    &:hover {
+        & .card__content--discription {
+            padding: 20px 0;
+
+            @media screen and (max-width: 500px) {
+              padding: 10px 0 0 0;
+            }
+        }
+
+        & .card__content--btn {
+            height: auto;
+            padding: 40px 0 0 0;
+
+            opacity: 1;
+            visibility: visible;
+
+            @media screen and (max-width: 500px) {
+              padding: 7px 0 0 0;
+            }
+        }
+    }
+}

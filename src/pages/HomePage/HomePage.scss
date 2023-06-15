@@ -1,0 +1,70 @@
+.home {
+    & .water-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        min-height: 567px;
+        object-fit: cover;
+    }
+}
+
+.water-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 567px;
+
+  position: relative;
+}
+
+.esg-container {
+  z-index: 1;
+}
+
+.esg-text-container {
+  display: flex;
+
+  justify-content: center;
+}
+
+.esg-title {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+
+  font-size: 44px;
+  font-weight: bold;
+}
+
+.esg-text {
+  width: 60%;
+  text-align: center;
+  line-height: 1.8em;
+  font-size: 18px;
+}
+
+
+@media screen and (max-width: 900px) {
+  .esg-title {
+    font-size: 40px;
+  }
+
+  .esg-text-container {
+    margin-bottom: 50px;
+  }
+
+  .esg-text {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .esg-container {
+    padding: 30px;
+  }
+
+  .home {
+      & .water-img {
+        width: 95%;
+      }
+  }
+}

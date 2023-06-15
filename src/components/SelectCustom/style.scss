@@ -1,0 +1,26 @@
+.select-single-value {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  & .select-name {
+    margin-left: 10px;
+  }
+}
+
+.select-option-value {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  & .select-name {
+    margin-left: 10px;
+  }
+}
+

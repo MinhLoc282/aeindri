@@ -18,7 +18,7 @@ import smile from 'assets/icons/smile.png';
 import './AddCollection.scss';
 
 function AddCollection() {
-  const { wallet } = useWeb3();
+  const { wallet, connect } = useWeb3();
 
   const dispatch = useDispatch();
 
@@ -108,7 +108,13 @@ function AddCollection() {
         setLoadingUploadImg(false);
 
         validation.setFieldValue('images', uploadedImages);
-        validation.handleSubmit();
+        if (wallet.address === '') {
+          connect().then(() => {
+            validation.handleSubmit();
+          });
+        } else {
+          validation.handleSubmit();
+        }
       } catch (error) {
         setLoadingUploadImg(false);
         toast.error('Error occurred while uploading images.');
@@ -184,33 +190,27 @@ function AddCollection() {
 
           <input type="file" id="file" onChange={onChangeImg} multiple />
 
-          {loadingUploadImg ? (
-            <span className="input-file-loading">
-              <i className="fa-solid fa-spinner loading" />
-            </span>
-          ) : (
-            <label htmlFor="file" className="input-file">
-              {selectedFiles.length > 0 ? (
-                selectedFiles.map((file, index) => (
-                  <div key={uuidv4()} className="selected-file">
-                    <img src={URL.createObjectURL(file)} alt="" />
-                    <button
-                      type="button"
-                      className="remove-image"
-                      onClick={() => removeImage(index)}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <div className="smile">
-                  Collection Images
-                  <img src={smile} alt="smile" />
+          <label htmlFor="file" className="input-file">
+            {selectedFiles.length > 0 ? (
+              selectedFiles.map((file, index) => (
+                <div key={uuidv4()} className="selected-file">
+                  <img src={URL.createObjectURL(file)} alt="" />
+                  <button
+                    type="button"
+                    className="remove-image"
+                    onClick={() => removeImage(index)}
+                  >
+                    &times;
+                  </button>
                 </div>
-              )}
-            </label>
-          )}
+              ))
+            ) : (
+              <div className="smile">
+                Collection Images
+                <img src={smile} alt="smile" />
+              </div>
+            )}
+          </label>
         </div>
 
         <button

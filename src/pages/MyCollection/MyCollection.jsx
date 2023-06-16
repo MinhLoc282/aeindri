@@ -11,14 +11,20 @@ import './MyCollection.scss';
 import { actionGetMyCollection } from 'store/actions';
 
 function MyCollection() {
-  const { wallet } = useWeb3();
+  const { wallet, connect } = useWeb3();
 
   const dispatch = useDispatch();
   const myCollectionData = useSelector((state) => state.Collections);
 
   useEffect(() => {
-    dispatch(actionGetMyCollection(wallet.address));
+    if (wallet.address) {
+      dispatch(actionGetMyCollection(wallet.address));
+    }
   }, [wallet]);
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   return (
     <div className="nft">

@@ -11,19 +11,31 @@ import CollectionUser from 'components/CollectionUser/CollectionUser';
 import styles from './UserPage.module.scss';
 
 function UserPage() {
-  const { wallet } = useWeb3();
+  const { wallet, connect } = useWeb3();
   const dispatch = useDispatch();
   const brandsData = useSelector((state) => state.Brands);
   const collectionsData = useSelector((state) => state.Collections);
 
   useEffect(() => {
-    dispatch(actionGetUserBrand(wallet?.address));
-    dispatch(actionGetUserCollections(wallet?.address));
+    if (wallet.address) {
+      dispatch(actionGetUserBrand(wallet?.address));
+      dispatch(actionGetUserCollections(wallet?.address));
+    }
   }, [wallet]);
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   return (
     <div className={styles.Container}>
       <div className={styles.InnerContainer}>
+        <div className={styles.Header}>
+          <span className={styles.Line} />
+
+          Recent Brands
+        </div>
+
         {brandsData.brands.map((brand) => (
           brand !== undefined
           && (
@@ -40,6 +52,12 @@ function UserPage() {
           />
           )
         ))}
+
+        <div className={styles.Header}>
+          <span className={styles.Line} />
+
+          Recent Collections
+        </div>
 
         {collectionsData.collections.map((collection) => (
           <CollectionUser

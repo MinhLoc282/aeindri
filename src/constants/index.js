@@ -20,6 +20,8 @@ export const LOCATION = {
 
 export const SC_ADDRESS = '0x6f8cB870dFad5E6CF3bA3977a81eCC9dB97495D9';
 
+export const MARKET_PLACE_ADDRESS = '0x257dA33CAf1Be7AaFE3B86EA090c45081c6c9350';
+
 export const ADMIN_ADDRESS = '0x31E0D34066379B73aCd3f3D0834fbdCdE87023C5';
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:+\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

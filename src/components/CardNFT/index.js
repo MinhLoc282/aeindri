@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Card.scss';
-import useWeb3 from 'hooks/useWeb3';
 
 function CardNFT(props) {
   const { item, isMyNFT } = props;
 
-  const [brand, setBrand] = useState({});
-
-  const { getIdToBrand, purchaseNFT } = useWeb3();
-
-  const callback = (resBrand) => {
-    setBrand(resBrand);
-  };
+  console.log(item);
 
   const handlepurchchaseNFT = () => {
-    purchaseNFT(item);
+
   };
 
-  useEffect(() => {
-    getIdToBrand(item.brandId, callback);
-  }, []);
+  const image = item.media?.[0]?.gateway || item.image;
+  const title = item.title || item.rawMetadata.name;
+  const description = item.description || item.rawMetadata.description;
 
   return (
     <div className="card">
-      <img src={`https://res.cloudinary.com/vinhhoang/image/upload/v1673882158/aeindri/${item.tokenId}`} alt="NFT" className="card__img" />
+      <img src={image} alt="NFT" className="card__img" />
 
       <div className="card__content">
-        <span className="card__content--title">{item.title}</span>
-        <span className="card__content--discription">{brand.description}</span>
-        <span className="card__content--money">{item.price}</span>
+        <span className="card__content--title">{title}</span>
+        <span className="card__content--discription">{description}</span>
+        <span className="card__content--money">
+          Token Id:
+          {' '}
+          {item.tokenId}
+        </span>
         {!isMyNFT && (
         <button type="button" className="card__content--btn" onClick={handlepurchchaseNFT}>
           <span className="buy-now">Buy now</span>

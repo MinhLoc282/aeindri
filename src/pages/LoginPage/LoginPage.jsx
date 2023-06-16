@@ -30,7 +30,7 @@ function LoginPage() {
   }, [showPassword]);
 
   const callbackLoginSuccess = useCallback(() => {
-    history.push('/profile');
+    history.push('/admin');
   }, [history]);
 
   const validation = useFormik({
@@ -60,7 +60,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (accessToken) {
-      history.push('/profile');
+      history.push('/admin');
     }
   }, [accessToken]);
 

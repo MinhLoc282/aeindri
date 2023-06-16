@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionGetAllBrands, actionGetAllCollections } from 'store/actions';
 
 import Brand from 'components/BrandAdmin/BrandAdmin';
-// import Collection from 'components/CollectionAdmin/CollectionAdmin';
-import Collection from 'components/CollectionUser/CollectionUser';
+import Collection from 'components/CollectionAdmin/CollectionAdmin';
 
 import styles from './AdminPage.module.scss';
 
@@ -56,7 +55,7 @@ function AdminPage() {
             collectionName={collection.collectionName}
             artistName={collection.artistName}
             description={collection.description}
-            image={collection.image}
+            images={collection.images}
             approved={collection.approved}
           />
         ))}

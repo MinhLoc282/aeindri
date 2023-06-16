@@ -8,7 +8,6 @@ import { actionGetAllCollections } from 'store/actions';
 import Collection from 'components/CollectionAdmin/CollectionAdmin';
 
 import './AllCollections.scss';
-import useWeb3 from 'hooks/useWeb3';
 
 function AllCollections() {
   const dispatch = useDispatch();
@@ -17,12 +16,6 @@ function AllCollections() {
   useEffect(() => {
     dispatch(actionGetAllCollections());
   }, []);
-
-  const { deployContract } = useWeb3();
-
-  const handleAddCollections = async () => {
-    deployContract('HELO', 'TKM', 'Collection name', 'This is description', 'imagelink');
-  };
 
   return (
     <div className="nft">
@@ -40,8 +33,6 @@ function AllCollections() {
           />
         ))}
       </div>
-
-      <button type="button" onClick={handleAddCollections}>Test</button>
     </div>
   );
 }

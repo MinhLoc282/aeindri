@@ -9,7 +9,7 @@ import styles from './CollectionAdmin.module.scss';
 
 function Brand(props) {
   const {
-    id, collectionName, description, image, artistName, approved,
+    id, collectionName, description, images, artistName, approved,
   } = props;
 
   const dispatch = useDispatch();
@@ -39,7 +39,8 @@ function Brand(props) {
     <div className={styles.Container}>
       {isMobile ? (
         <div className={styles.InfoContainer}>
-          <img src={image} alt={collectionName} className={styles.Image} />
+          {images?.length > 0
+            && <img src={images[0].image} alt={collectionName} className={styles.Image} />}
 
           <div>
             <div className={styles.Name}>
@@ -57,7 +58,8 @@ function Brand(props) {
         </div>
       ) : (
         <>
-          <img src={image} alt={collectionName} className={styles.Image} />
+          {images?.length > 0
+            && <img src={images[0].image} alt={collectionName} className={styles.Image} />}
 
           <div>
             <div className={styles.Name}>
@@ -101,7 +103,10 @@ Brand.propTypes = {
   collectionName: PropTypes.string.isRequired,
   artistName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    cloudinary_id: PropTypes.string.isRequired,
+  })).isRequired,
   approved: PropTypes.bool.isRequired,
 };
 

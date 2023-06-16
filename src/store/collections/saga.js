@@ -14,6 +14,7 @@ import {
   APPROVE_COLLECTION,
   DECLINE_COLLECTION,
   GET_MY_COLLECTION,
+  UPDATE_COLLECTION_ADDRESS,
 } from './actionTypes';
 
 import {
@@ -29,6 +30,8 @@ import {
   actionApproveCollectionFailed,
   actionDeclineCollectionSuccess,
   actionDeclineCollectionFailed,
+  actionUpdateCollectionAddressSuccess,
+  actionUpdateCollectionAddressFailed,
 } from './actions';
 
 function* getAllCollections() {
@@ -115,6 +118,23 @@ function* declineCollection(action) {
   }
 }
 
+function* updateCollectionAddress(action) {
+  try {
+    const { id, collectionAddress } = action.payload;
+    const response = yield collectionAPI.updateCollectionAddress({ id, collectionAddress });
+    if (response.success) {
+      toast.success(response.message);
+      yield put(actionUpdateCollectionAddressSuccess(action.payload));
+    } else {
+      toast.error(response.message);
+      yield put(actionUpdateCollectionAddressFailed());
+    }
+  } catch (error) {
+    apiErrorHandler(error);
+    yield put(actionUpdateCollectionAddressFailed());
+  }
+}
+
 export default function* CollectionsSaga() {
   yield takeLeading(GET_ALL_COLLECTIONS, getAllCollections);
   yield takeLeading(GET_USER_COLLECTIONS, getUserCollections);
@@ -122,4 +142,5 @@ export default function* CollectionsSaga() {
   yield takeLeading(CREATE_COLLECTION, createCollection);
   yield takeLeading(APPROVE_COLLECTION, approveCollection);
   yield takeLeading(DECLINE_COLLECTION, declineCollection);
+  yield takeLeading(UPDATE_COLLECTION_ADDRESS, updateCollectionAddress);
 }

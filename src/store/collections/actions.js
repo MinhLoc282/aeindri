@@ -17,6 +17,9 @@ import {
   DECLINE_COLLECTION,
   DECLINE_COLLECTION_SUCCESS,
   DECLINE_COLLECTION_FAILED,
+  UPDATE_COLLECTION_ADDRESS,
+  UPDATE_COLLECTION_ADDRESS_SUCCESS,
+  UPDATE_COLLECTION_ADDRESS_FAILED,
 } from './actionTypes';
 
 export const actionGetAllCollections = () => ({
@@ -100,4 +103,18 @@ export const actionDeclineCollectionSuccess = (payload) => ({
 
 export const actionDeclineCollectionFailed = () => ({
   type: DECLINE_COLLECTION_FAILED,
+});
+
+export const actionUpdateCollectionAddress = (payload) => ({
+  type: UPDATE_COLLECTION_ADDRESS,
+  payload,
+});
+
+export const actionUpdateCollectionAddressSuccess = (payload) => ({
+  type: UPDATE_COLLECTION_ADDRESS_SUCCESS,
+  payload,
+});
+
+export const actionUpdateCollectionAddressFailed = () => ({
+  type: UPDATE_COLLECTION_ADDRESS_FAILED,
 });

@@ -17,6 +17,9 @@ import {
   DECLINE_COLLECTION,
   DECLINE_COLLECTION_SUCCESS,
   DECLINE_COLLECTION_FAILED,
+  UPDATE_COLLECTION_ADDRESS,
+  UPDATE_COLLECTION_ADDRESS_SUCCESS,
+  UPDATE_COLLECTION_ADDRESS_FAILED,
 } from './actionTypes';
 
 const initialState = {
@@ -143,6 +146,30 @@ const collections = (state = initialState, action) => {
       };
 
     case DECLINE_COLLECTION_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case UPDATE_COLLECTION_ADDRESS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UPDATE_COLLECTION_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        collections: state.collections.map((collection) => {
+          if (collection._id === action.payload.collectionId) {
+            return { ...collection, collectionAddress: action.payload.newAddress };
+          }
+          return collection;
+        }),
+      };
+
+    case UPDATE_COLLECTION_ADDRESS_FAILED:
       return {
         ...state,
         loading: false,

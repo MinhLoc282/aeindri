@@ -50,4 +50,12 @@ export default {
 
     return response.data;
   },
+
+  async updateCollectionAddress(payload) {
+    const path = `${endPoint}/collection-address/${payload.id}`;
+
+    const response = await axiosClient.put(path, { collectionAddress: payload.collectionAddress });
+
+    return response.data;
+  },
 };

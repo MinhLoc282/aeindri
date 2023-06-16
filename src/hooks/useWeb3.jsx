@@ -16,6 +16,8 @@ import { SC_ADDRESS } from 'constants/index';
 import { NFTABI } from 'constants/NFTABI';
 import { bytecode } from 'constants/NFTBYTECODE';
 
+import axios from 'axios';
+
 const initial = {
   address: '',
   balance: '',
@@ -29,6 +31,7 @@ const Web3Context = createContext({
   getIdToBrand: async () => {},
   purchaseNFT: async () => {},
   deployContract: async () => {},
+  uploadImagesToIPFS: async () => {},
 });
 
 const nftStorage = new NFTStorage({ token: process.env.REACT_APP_NFT_STORAGE_API });
@@ -143,13 +146,24 @@ export function Web3Provider({ children }) {
     collectionImage,
   ) => {
     try {
-      const metadata = {
-        name: collectionName,
-        description: collectionDescription,
-        image: collectionImage,
-      };
+      const imageCID = await uploadImagesToIPFS(collectionImage);
 
-      const metadataCID = await uploadMetadataToIPFS(metadata);
+      const metadataFiles = [];
+      for (let i = 0; i < collectionImage.length; i += 1) {
+        const metadata = {
+          name: collectionName,
+          description: collectionDescription,
+          image: `ipfs://${imageCID}/${i}.jpg`,
+        };
+
+        const metadataString = JSON.stringify(metadata);
+        const metadataBlob = new Blob([metadataString], { type: 'application/json' });
+        const metadataFile = new File([metadataBlob], `${i}.json`);
+
+        metadataFiles.push(metadataFile);
+      }
+
+      const metadataCID = await uploadMetadataToIPFS(metadataFiles);
 
       const deployedContract = await new web3.eth.Contract(NFTABI)
         .deploy({
@@ -160,24 +174,42 @@ export function Web3Provider({ children }) {
 
       const contractAddress = deployedContract.options.address;
 
-      setWallet((prevState) => ({
-        ...prevState,
-        contractAddress,
-      }));
-
       toast.success('Contract deployed successfully');
+
+      return contractAddress;
     } catch (error) {
-      toast.error('Error');
+      toast.error(error);
+      throw error;
     }
   };
 
-  const uploadMetadataToIPFS = async (metadata) => {
+  const uploadMetadataToIPFS = async (metadataFiles) => {
     try {
-      const metadataString = JSON.stringify(metadata);
-      const metadataBlob = new Blob([metadataString], { type: 'application/json' });
-      const metadataFile = new File([metadataBlob], 'metadata.json');
+      const cid = await nftStorage.storeDirectory(metadataFiles);
+      return cid;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
-      const cid = await nftStorage.storeBlob(metadataFile);
+  const uploadImagesToIPFS = async (imageDataArray) => {
+    try {
+      const images = await Promise.all(
+        imageDataArray.map(async (imageData, index) => {
+          const { image } = imageData;
+          const response = await axios.get(image, {
+            responseType: 'arraybuffer',
+          });
+          return {
+            data: response.data,
+            name: `${index + 1}.jpg`,
+          };
+        }),
+      );
+
+      const files = images.map(({ data, name }) => new File([data], name, { type: 'image/jpeg' }));
+
+      const cid = await nftStorage.storeDirectory(files);
       return cid;
     } catch (error) {
       throw new Error(error);
@@ -213,6 +245,7 @@ export function Web3Provider({ children }) {
         purchaseNFT,
         deployContract,
         uploadMetadataToIPFS,
+        uploadImagesToIPFS,
       }}
     >
       { children }

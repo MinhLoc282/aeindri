@@ -1,19 +1,22 @@
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
+import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
 import useWeb3 from 'hooks/useWeb3';
 
+import { actionUpdateCollectionAddress } from 'store/actions';
 import styles from './CollectionUser.module.scss';
 
 function Brand(props) {
   const {
-    collectionName, description, images, artistName, approved,
+    id, collectionName, description, images, artistName, approved,
   } = props;
 
   const { deployContract } = useWeb3();
+  const dispatch = useDispatch();
 
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,14 +32,16 @@ function Brand(props) {
     setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
 
-  const handleMintClick = () => {
-    deployContract(
+  const handleMintClick = async () => {
+    const deployedCollectionAddress = await deployContract(
       collectionName,
       collectionName.substr(0, 3),
       collectionName,
       description,
       images,
     );
+
+    dispatch(actionUpdateCollectionAddress({ id, collectionAddress: deployedCollectionAddress }));
   };
 
   const handleContainerClick = () => {
@@ -81,7 +86,8 @@ function Brand(props) {
       <button type="button" className={styles.Container} onClick={handleContainerClick}>
         {isMobile ? (
           <div className={styles.InfoContainer}>
-            <img src={images[0]?.image} alt={collectionName} className={styles.Image} />
+            {images?.length > 0
+            && <img src={images[0].image} alt={collectionName} className={styles.Image} />}
 
             <div>
               <div className={styles.Name}>
@@ -99,7 +105,8 @@ function Brand(props) {
           </div>
         ) : (
           <>
-            <img src={images[0]?.image} alt={collectionName} className={styles.Image} />
+            {images?.length > 0
+            && <img src={images[0].image} alt={collectionName} className={styles.Image} />}
 
             <div>
               <div className={styles.Name}>
@@ -147,7 +154,8 @@ function Brand(props) {
               &gt;
             </button>
           </div>
-          <button type="button" className={styles.MintButton} onClick={handleMintClick}>
+
+          <button type="button" className={styles.MintButton} onClick={handleMintClick} disabled={approved}>
             Mint
           </button>
         </div>
@@ -158,6 +166,7 @@ function Brand(props) {
 }
 
 Brand.propTypes = {
+  id: PropTypes.string.isRequired,
   collectionName: PropTypes.string.isRequired,
   artistName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,

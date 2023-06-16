@@ -44,11 +44,13 @@ function UserPage() {
         {collectionsData.collections.map((collection) => (
           <CollectionUser
             key={collection._id}
+            id={collection._id}
             collectionName={collection.collectionName}
             artistName={collection.artistName}
             description={collection.description}
             images={collection.images}
             approved={collection.approved}
+            collectionAddress={collection.collectionAddress}
           />
         ))}
       </div>

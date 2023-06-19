@@ -161,10 +161,14 @@ export function Web3Provider({ children }) {
 
   const buyNFT = async (data) => {
     try {
+      if (!wallet.address) {
+        toast.error('Please connect to your wallet');
+      }
+
       const res = await marketPlaceContract
         .methods
         .buyToken(data.listingId)
-        .send({ from: wallet.address });
+        .send({ from: wallet.address, value: data.price });
 
       toast.success('Successfully purchase NFT');
     } catch (error) {
@@ -222,7 +226,7 @@ export function Web3Provider({ children }) {
         .getListing(data.listingId)
         .call();
 
-      return res.price;
+      return res;
     } catch (error) {
       console.error(error);
       return 0;

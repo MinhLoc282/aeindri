@@ -9,7 +9,7 @@ function CardNFT(props) {
   const { item } = props;
 
   const {
-    buyNFT, getListingId, getPrice,
+    wallet, buyNFT, getListingId, getPrice,
   } = useWeb3();
 
   const image = item.media?.[0]?.gateway || item.image;
@@ -20,7 +20,7 @@ function CardNFT(props) {
 
   const handleBuyNFT = (data) => async () => {
     const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
-    await buyNFT({ listingId });
+    await buyNFT({ listingId, price: price.price });
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function CardNFT(props) {
   }, []);
 
   return (
-    item.tokenId && item.title && (
+    item.tokenId && item.title && price.owner?.toLowerCase() !== wallet.address && (
     <div className="card">
       <img src={image} alt="NFT" className="card__img" />
 
@@ -53,7 +53,7 @@ function CardNFT(props) {
           <label htmlFor="priceInput">
             Price:
             {' '}
-            {price}
+            {price.price}
             {' '}
             wei
           </label>

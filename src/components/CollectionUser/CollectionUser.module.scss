@@ -206,6 +206,14 @@
       }
     }
 
+    .BanClick {
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: #555555;
+      }
+    }
+
     .CloseButton {
       position: absolute;
       top: 0px;
@@ -249,4 +257,14 @@
       }
     }
   }
+}
+
+.loading {
+  margin: 0 !important;
+  animation: spinner-loading 2s linear infinite;
+}
+
+@keyframes spinner-loading {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }

@@ -35,7 +35,7 @@ function* sellNFT(action) {
     const response = yield marketplaceAPI.sellNFT(action.payload);
     if (response.success) {
       toast.success(response.message);
-      yield put(actionSellNFTSuccess(response));
+      yield put(actionSellNFTSuccess(action.payload));
     } else {
       toast.error(response.message);
       yield put(actionSellNFTFailed());
@@ -51,7 +51,7 @@ function* buyNFT(action) {
     const response = yield marketplaceAPI.buyNFT(action.payload);
     if (response.success) {
       toast.success(response.message);
-      yield put(actionBuyNFTSuccess(response));
+      yield put(actionBuyNFTSuccess(action.payload));
     } else {
       toast.error(response.message);
       yield put(actionBuyNFTFailed());

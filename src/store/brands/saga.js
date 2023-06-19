@@ -54,7 +54,7 @@ function* createBrand(action) {
     const response = yield brandAPI.createBrand(action.payload);
     if (response.success) {
       toast.success(response.message);
-      yield put(actionCreateBrandSuccess(response));
+      yield put(actionCreateBrandSuccess(action.payload));
     } else {
       toast.error(response.message);
       yield put(actionCreateBrandFailed());
@@ -72,7 +72,7 @@ function* approveBrand(action) {
     const response = yield brandAPI.approveBrand(action.payload);
     if (response.success) {
       toast.success(response.message);
-      yield put(actionApproveBrandSuccess(response));
+      yield put(actionApproveBrandSuccess(action.payload));
     } else {
       toast.error(response.message);
       yield put(actionApproveBrandFailed());
@@ -90,7 +90,7 @@ function* declineBrand(action) {
     const response = yield brandAPI.declineBrand(action.payload);
     if (response.success) {
       toast.success(response.message);
-      yield put(actionDeclineBrandSuccess(response));
+      yield put(actionDeclineBrandSuccess(action.payload));
     } else {
       toast.error(response.message);
       yield put(actionDeclineBrandFailed());

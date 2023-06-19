@@ -53,7 +53,7 @@ function App() {
           <Route path={LOCATION.POP_UP} component={WertWidgetWrapper} />
 
           <Route path={LOCATION.ADMIN_PAGE} component={ProtectedPage} />
-          <Route path={LOCATION.USER_PAGE} component={UserPage} />
+          <Route path={LOCATION.PROFILE_PAGE} component={UserPage} />
         </Layout>
       </Switch>
     </Router>

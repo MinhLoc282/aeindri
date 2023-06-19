@@ -73,7 +73,6 @@ const brands = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        brands: [...state.brands, action.payload],
       };
 
     case CREATE_BRAND_FAILED:
@@ -93,7 +92,7 @@ const brands = (state = initialState, action) => {
         ...state,
         loading: false,
         brands: state.brands.map((brand) => {
-          if (brand._id === action.payload.id) {
+          if (brand._id === action.payload) {
             return { ...brand, approved: true };
           }
           return brand;
@@ -116,7 +115,7 @@ const brands = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        brands: state.brands.filter((brand) => brand._id !== action.payload.id),
+        brands: state.brands.filter((brand) => brand._id !== action.payload),
       };
 
     case DECLINE_BRAND_FAILED:

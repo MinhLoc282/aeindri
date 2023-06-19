@@ -17,12 +17,15 @@ function Brand(props) {
   const dispatch = useDispatch();
 
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleApprove = () => {
+    setLoading(true);
     dispatch(actionApproveBrand(id));
   };
 
   const handleDecline = () => {
+    setLoading(true);
     dispatch(actionDeclineBrand(id));
   };
 
@@ -53,7 +56,7 @@ function Brand(props) {
             </div>
 
             <div className={styles.Url}>
-              {description}
+              {description.length > 25 ? `${description.slice(0, 25)}...` : description}
             </div>
           </div>
         </div>
@@ -72,7 +75,7 @@ function Brand(props) {
           </div>
 
           <div className={styles.Url}>
-            {description}
+            {description.length > 25 ? `${description.slice(0, 25)}...` : description}
           </div>
         </>
       )}
@@ -81,13 +84,19 @@ function Brand(props) {
         ? <div className={styles.Status}>Completed</div>
         : (
           <div className={styles.ButtonContainer}>
-            <button type="button" className={styles.Accept} onClick={handleApprove}>
-              <span className={styles.ButtonText}>Accept</span>
-            </button>
+            {loading ? (
+              <div className={styles.CircleLoader} />
+            ) : (
+              <>
+                <button type="button" className={styles.Accept} onClick={handleApprove}>
+                  <span className={styles.ButtonText}>Accept</span>
+                </button>
 
-            <button type="button" className={styles.Decline} onClick={handleDecline}>
-              <span className={styles.ButtonText}>Decline</span>
-            </button>
+                <button type="button" className={styles.Decline} onClick={handleDecline}>
+                  <span className={styles.ButtonText}>Decline</span>
+                </button>
+              </>
+            )}
           </div>
         )}
 

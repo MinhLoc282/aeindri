@@ -1,22 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import useWeb3 from 'hooks/useWeb3';
 
 import './Card.scss';
 
 function CardNFT(props) {
-  const { item, isMyNFT } = props;
+  const { item } = props;
 
-  console.log(item);
+  const [price, setPrice] = useState('');
 
-  const handlepurchchaseNFT = () => {
-
-  };
+  const {
+    sellNFT, approveNFT, getApprovedNFT,
+  } = useWeb3();
 
   const image = item.media?.[0]?.gateway || item.image;
-  const title = item.title || item.rawMetadata.name;
-  const description = item.description || item.rawMetadata.description;
+  const title = item.title || item.rawMetadata?.name;
+  const description = item.description || item.rawMetadata?.description;
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+  const handleSellNFT = (data) => async () => {
+    const addressApproved = await getApprovedNFT({
+      collectionAddress: data.contract.address,
+      tokenId: data.tokenId,
+    });
+
+    if (addressApproved === '0x0000000000000000000000000000000000000000') {
+      await approveNFT({
+        collectionAddress: data.contract.address,
+        tokenId: data.tokenId,
+      });
+    } else {
+      await sellNFT({
+        token: data.contract.address,
+        tokenId: data.tokenId,
+        price,
+      });
+    }
+  };
 
   return (
+    item.tokenId && item.title && (
     <div className="card">
       <img src={image} alt="NFT" className="card__img" />
 
@@ -28,25 +55,31 @@ function CardNFT(props) {
           {' '}
           {item.tokenId}
         </span>
-        {!isMyNFT && (
-        <button type="button" className="card__content--btn" onClick={handlepurchchaseNFT}>
-          <span className="buy-now">Buy now</span>
 
+        <div className="card__content--price">
+          <label htmlFor="priceInput">Price:</label>
+          <input
+            id="priceInput"
+            type="text"
+            value={price}
+            onChange={handlePriceChange}
+            placeholder="Enter price in wei"
+          />
+        </div>
+
+        <button type="button" className="card__content--btn" onClick={handleSellNFT(item)}>
+          <span className="buy-now">Sell now</span>
           <i className="fa-solid fa-arrow-right-long" />
         </button>
-        )}
       </div>
     </div>
+    )
+
   );
 }
 
 CardNFT.propTypes = {
   item: PropTypes.instanceOf(Object).isRequired,
-  isMyNFT: PropTypes.bool,
-};
-
-CardNFT.defaultProps = {
-  isMyNFT: false,
 };
 
 export default CardNFT;

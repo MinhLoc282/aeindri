@@ -42,7 +42,7 @@ function AddCollection() {
       collectionName: Yup.string().required('Collection name is required.'),
       description: Yup.string().required('Description is required.'),
       artistName: Yup.string().required('Artist name is required.'),
-      images: Yup.array().required('At least one image is required.'),
+      images: Yup.array().min(1).required('At least one image is required.'),
     }),
 
     onSubmit: async (values) => {
@@ -69,7 +69,10 @@ function AddCollection() {
     setLoadingUploadImg(false);
   };
 
-  const removeImage = (index) => {
+  const removeImage = (index, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setSelectedFiles((prevSelectedFiles) => {
       const updatedFiles = [...prevSelectedFiles];
       updatedFiles.splice(index, 1);
@@ -105,16 +108,18 @@ function AddCollection() {
 
         const uploadedImages = await Promise.all(uploadPromises);
 
-        setLoadingUploadImg(false);
-
         validation.setFieldValue('images', uploadedImages);
         if (wallet.address === '') {
-          connect().then(() => {
+          connect().then(async () => {
+            await Promise.all(uploadPromises);
             validation.handleSubmit();
           });
         } else {
+          await Promise.all(uploadPromises);
           validation.handleSubmit();
         }
+
+        setLoadingUploadImg(false);
       } catch (error) {
         setLoadingUploadImg(false);
         toast.error('Error occurred while uploading images.');
@@ -198,7 +203,7 @@ function AddCollection() {
                   <button
                     type="button"
                     className="remove-image"
-                    onClick={() => removeImage(index)}
+                    onClick={(e) => removeImage(index, e)}
                   >
                     &times;
                   </button>

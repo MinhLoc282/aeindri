@@ -21,7 +21,7 @@ function UserPage() {
       dispatch(actionGetUserBrand(wallet?.address));
       dispatch(actionGetUserCollections(wallet?.address));
     }
-  }, [wallet]);
+  }, [wallet.address]);
 
   useEffect(() => {
     connect();
@@ -32,8 +32,7 @@ function UserPage() {
       <div className={styles.InnerContainer}>
         <div className={styles.Header}>
           <span className={styles.Line} />
-
-          Recent Brands
+          Yours Brands
         </div>
 
         {brandsData.brands.map((brand) => (
@@ -56,7 +55,7 @@ function UserPage() {
         <div className={styles.Header}>
           <span className={styles.Line} />
 
-          Recent Collections
+          Yours Collections
         </div>
 
         {collectionsData.collections.map((collection) => (

@@ -25,6 +25,7 @@ import {
 const initialState = {
   loading: false,
   collections: [],
+  myCollections: [],
 };
 
 const collections = (state = initialState, action) => {
@@ -79,14 +80,14 @@ const collections = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        collections: action.payload,
+        myCollections: action.payload,
       };
 
     case GET_MY_COLLECTION_FAILED:
       return {
         ...state,
         loading: false,
-        collections: initialState.collections,
+        myCollections: initialState.myCollections,
       };
 
     case CREATE_COLLECTION:
@@ -99,7 +100,6 @@ const collections = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        collections: [...state.collections, action.payload],
       };
 
     case CREATE_COLLECTION_FAILED:
@@ -162,8 +162,8 @@ const collections = (state = initialState, action) => {
         ...state,
         loading: false,
         collections: state.collections.map((collection) => {
-          if (collection._id === action.payload.collectionId) {
-            return { ...collection, collectionAddress: action.payload.newAddress };
+          if (collection._id === action.payload.id) {
+            return { ...collection, collectionAddress: action.payload.collectionAddress };
           }
           return collection;
         }),

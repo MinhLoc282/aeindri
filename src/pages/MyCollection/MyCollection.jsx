@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import useWeb3 from 'hooks/useWeb3';
-import useAlchemy from 'hooks/useAlchemy';
 
 import CardNFT from 'components/CardNFT';
 
@@ -20,7 +22,7 @@ function MyCollection() {
     if (wallet.address) {
       dispatch(actionGetMyCollection(wallet.address));
     }
-  }, [wallet]);
+  }, [wallet.address]);
 
   useEffect(() => {
     connect();
@@ -28,13 +30,13 @@ function MyCollection() {
 
   return (
     <div className="nft">
+      <Link to="add-collection" className="btn">Add item</Link>
       <div className="nft--item">
-        {myCollectionData && myCollectionData.collections.map(
+        {myCollectionData && myCollectionData.myCollections.map(
           (item) => (
             <CardNFT
-              key={item.tokenId}
+              key={uuidv4()}
               item={item}
-              isMyNFT
             />
           ),
         )}

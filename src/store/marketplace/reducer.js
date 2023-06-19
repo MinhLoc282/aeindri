@@ -46,7 +46,6 @@ const marketPlaceReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        marketPlace: [...state.marketPlace, action.payload],
       };
 
     case SELL_NFT_FAILED:

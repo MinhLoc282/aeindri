@@ -39,7 +39,7 @@ function Brand(props) {
             </div>
 
             <div className={styles.Url}>
-              {description}
+              {description.length > 25 ? `${description.slice(0, 25)}...` : description}
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ function Brand(props) {
           </div>
 
           <div className={styles.Url}>
-            {description}
+            {description.length > 25 ? `${description.slice(0, 25)}...` : description}
           </div>
         </>
       )}

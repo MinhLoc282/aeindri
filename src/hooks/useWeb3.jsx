@@ -11,8 +11,8 @@ import Web3 from 'web3';
 
 import { NFTStorage } from 'nft.storage';
 
-import { ABI } from 'constants/ABI';
-import { SC_ADDRESS } from 'constants/index';
+import { ABI, MARKET_PLACE_ABI } from 'constants/ABI';
+import { MARKET_PLACE_ADDRESS, SC_ADDRESS } from 'constants/index';
 import { NFTABI } from 'constants/NFTABI';
 import { bytecode } from 'constants/NFTBYTECODE';
 
@@ -32,6 +32,13 @@ const Web3Context = createContext({
   purchaseNFT: async () => {},
   deployContract: async () => {},
   uploadImagesToIPFS: async () => {},
+  sellNFT: async () => {},
+  buyNFT: async () => {},
+  getListingId: async () => {},
+  mintToken: async () => {},
+  approveNFT: async () => {},
+  getApprovedNFT: async () => {},
+  getPrice: async () => {},
 });
 
 const nftStorage = new NFTStorage({ token: process.env.REACT_APP_NFT_STORAGE_API });
@@ -41,6 +48,7 @@ export function Web3Provider({ children }) {
 
   const web3 = new Web3(window.ethereum);
   const nftContract = new web3.eth.Contract(ABI, SC_ADDRESS);
+  const marketPlaceContract = new web3.eth.Contract(MARKET_PLACE_ABI, MARKET_PLACE_ADDRESS);
 
   const connect = async () => {
     try {
@@ -138,6 +146,89 @@ export function Web3Provider({ children }) {
     }
   };
 
+  const sellNFT = async (data) => {
+    try {
+      const res = await marketPlaceContract
+        .methods
+        .listToken(data.token, data.tokenId, data.price)
+        .send({ from: wallet.address });
+
+      toast.success('Successfully list NFT');
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const buyNFT = async (data) => {
+    try {
+      const res = await marketPlaceContract
+        .methods
+        .buyToken(data.listingId)
+        .send({ from: wallet.address });
+
+      toast.success('Successfully purchase NFT');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const approveNFT = async (data) => {
+    try {
+      const contract = new web3.eth.Contract(NFTABI, data.collectionAddress);
+
+      const res = await contract
+        .methods
+        .approve(MARKET_PLACE_ADDRESS, data.tokenId)
+        .send({ from: wallet.address });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getApprovedNFT = async (data) => {
+    try {
+      const contract = new web3.eth.Contract(NFTABI, data.collectionAddress);
+
+      const res = await contract
+        .methods
+        .getApproved(data.tokenId)
+        .call();
+
+      return res;
+    } catch (error) {
+      console.error(error);
+      return 0;
+    }
+  };
+
+  const getListingId = async (data) => {
+    try {
+      const res = await marketPlaceContract
+        .methods
+        .getNftLatestAuction(data.token, data.tokenId)
+        .call();
+
+      return res;
+    } catch (error) {
+      console.error(error);
+      return 0;
+    }
+  };
+
+  const getPrice = async (data) => {
+    try {
+      const res = await marketPlaceContract
+        .methods
+        .getListing(data.listingId)
+        .call();
+
+      return res.price;
+    } catch (error) {
+      console.error(error);
+      return 0;
+    }
+  };
+
   const deployContract = async (
     tokenName,
     tokenSymbol,
@@ -168,7 +259,7 @@ export function Web3Provider({ children }) {
       const deployedContract = await new web3.eth.Contract(NFTABI)
         .deploy({
           data: bytecode,
-          arguments: [tokenName, tokenSymbol, metadataCID],
+          arguments: [tokenName, tokenSymbol, `ipfs://${metadataCID}/`, collectionImage.length],
         })
         .send({ from: wallet.address });
 
@@ -180,6 +271,19 @@ export function Web3Provider({ children }) {
     } catch (error) {
       toast.error(error);
       throw error;
+    }
+  };
+
+  const mintToken = async (data) => {
+    try {
+      const contract = new web3.eth.Contract(NFTABI, data.collectionAddress);
+
+      const res = await contract
+        .methods
+        .mint(wallet.address, data.numberOfTokens)
+        .send({ from: wallet.address });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -202,7 +306,7 @@ export function Web3Provider({ children }) {
           });
           return {
             data: response.data,
-            name: `${index + 1}.jpg`,
+            name: `${index}.jpg`,
           };
         }),
       );
@@ -246,6 +350,13 @@ export function Web3Provider({ children }) {
         deployContract,
         uploadMetadataToIPFS,
         uploadImagesToIPFS,
+        sellNFT,
+        buyNFT,
+        getListingId,
+        mintToken,
+        approveNFT,
+        getApprovedNFT,
+        getPrice,
       }}
     >
       { children }

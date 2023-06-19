@@ -16,6 +16,11 @@ export const NFTABI = [
         name: 'baseURI',
         type: 'string',
       },
+      {
+        internalType: 'uint256',
+        name: 'max_tokens',
+        type: 'uint256',
+      },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -68,6 +73,25 @@ export const NFTABI = [
       },
     ],
     name: 'ApprovalForAll',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
     type: 'event',
   },
   {
@@ -182,13 +206,18 @@ export const NFTABI = [
         name: 'to',
         type: 'address',
       },
+      {
+        internalType: 'uint256',
+        name: 'numberOfTokens',
+        type: 'uint256',
+      },
     ],
     name: 'mint',
     outputs: [
       {
-        internalType: 'uint256',
+        internalType: 'uint256[]',
         name: '',
-        type: 'uint256',
+        type: 'uint256[]',
       },
     ],
     stateMutability: 'nonpayable',
@@ -202,6 +231,19 @@ export const NFTABI = [
         internalType: 'string',
         name: '',
         type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'owner',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
@@ -224,6 +266,13 @@ export const NFTABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -378,6 +427,19 @@ export const NFTABI = [
       },
     ],
     name: 'transferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

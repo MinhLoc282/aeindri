@@ -9,7 +9,7 @@ function CardNFT(props) {
   const { item } = props;
 
   const {
-    wallet, buyNFT, getListingId, getPrice,
+    wallet, buyNFT, getListingId, getPrice, cancelListing,
   } = useWeb3();
 
   const image = item.media?.[0]?.gateway || item.image;
@@ -21,6 +21,11 @@ function CardNFT(props) {
   const handleBuyNFT = (data) => async () => {
     const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
     await buyNFT({ listingId, price: price.price });
+  };
+
+  const handleCancelNFT = (data) => async () => {
+    const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
+    await cancelListing({ listingId });
   };
 
   useEffect(() => {
@@ -36,7 +41,7 @@ function CardNFT(props) {
   }, []);
 
   return (
-    item.tokenId && item.title && price.owner?.toLowerCase() !== wallet.address && (
+    item.tokenId && item.title && (
     <div className="card">
       <img src={image} alt="NFT" className="card__img" />
 
@@ -59,10 +64,18 @@ function CardNFT(props) {
           </label>
         </div>
 
-        <button type="button" className="card__content--btn" onClick={handleBuyNFT(item)}>
-          <span className="buy-now">Buy now</span>
-          <i className="fa-solid fa-arrow-right-long" />
-        </button>
+        {price.owner?.toLowerCase() !== wallet.address ? (
+          <button type="button" className="card__content--btn" onClick={handleBuyNFT(item)}>
+            <span className="buy-now">Buy now</span>
+            <i className="fa-solid fa-arrow-right-long" />
+          </button>
+        ) : (
+          <button type="button" className="card__content--btn" onClick={handleCancelNFT(item)}>
+            <span className="buy-now">Cancel</span>
+            <i className="fa-solid fa-arrow-right-long" />
+          </button>
+        )}
+
       </div>
     </div>
     )

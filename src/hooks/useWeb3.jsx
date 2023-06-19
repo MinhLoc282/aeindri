@@ -39,6 +39,7 @@ const Web3Context = createContext({
   approveNFT: async () => {},
   getApprovedNFT: async () => {},
   getPrice: async () => {},
+  cancelListing: async () => {},
 });
 
 const nftStorage = new NFTStorage({ token: process.env.REACT_APP_NFT_STORAGE_API });
@@ -148,6 +149,10 @@ export function Web3Provider({ children }) {
 
   const sellNFT = async (data) => {
     try {
+      if (!wallet.address) {
+        toast.error('Please connect to your wallet');
+      }
+
       const res = await marketPlaceContract
         .methods
         .listToken(data.token, data.tokenId, data.price)
@@ -230,6 +235,23 @@ export function Web3Provider({ children }) {
     } catch (error) {
       console.error(error);
       return 0;
+    }
+  };
+
+  const cancelListing = async (data) => {
+    try {
+      if (!wallet.address) {
+        toast.error('Please connect to your wallet');
+      }
+
+      const res = await marketPlaceContract
+        .methods
+        .cancel(data.listingId)
+        .send({ from: wallet.address });
+
+      toast.success('Successfully cancel list NFT');
+    } catch (error) {
+      toast.error(error);
     }
   };
 
@@ -361,6 +383,7 @@ export function Web3Provider({ children }) {
         approveNFT,
         getApprovedNFT,
         getPrice,
+        cancelListing,
       }}
     >
       { children }

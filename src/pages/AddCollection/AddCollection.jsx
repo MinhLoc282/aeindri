@@ -103,7 +103,7 @@ function AddCollection() {
 
         const uploadedImages = await Promise.all(uploadPromises);
 
-        validation.setFieldValue('images', uploadedImages);
+        await validation.setFieldValue('images', uploadedImages);
 
         if (wallet.address === '') {
           await connect();

@@ -24,11 +24,14 @@ function CardNFT(props) {
   const description = item.description || item.rawMetadata?.description;
 
   const [price, setPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleBuyNFT = (data) => async () => {
     try {
+      setLoading(true);
       const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
       const success = await buyNFT({ listingId, price: price.price });
+      setLoading(false);
 
       if (success) {
         dispatch(actionRemoveNft({ tokenId: data.tokenId, address: data.contract.address }));
@@ -42,8 +45,10 @@ function CardNFT(props) {
 
   const handleCancelNFT = (data) => async () => {
     try {
+      setLoading(true);
       const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
       const success = await cancelListing({ listingId });
+      setLoading(false);
 
       if (success) {
         dispatch(actionRemoveNft({ tokenId: data.tokenId, address: data.contract.address }));
@@ -54,6 +59,37 @@ function CardNFT(props) {
       console.error(error);
     }
   };
+
+  let buttonContent;
+  if (price?.owner?.toLowerCase() !== wallet.address) {
+    if (loading) {
+      buttonContent = <span>Loading...</span>;
+    } else {
+      buttonContent = (
+        <button
+          type="button"
+          className="card__content--btn"
+          onClick={handleBuyNFT(item)}
+        >
+          <span className="buy-now">Buy now</span>
+          <i className="fa-solid fa-arrow-right-long" />
+        </button>
+      );
+    }
+  } else if (loading) {
+    buttonContent = <span>Loading...</span>;
+  } else {
+    buttonContent = (
+      <button
+        type="button"
+        className="card__content--btn"
+        onClick={handleCancelNFT(item)}
+      >
+        <span className="buy-now">Cancel</span>
+        <i className="fa-solid fa-arrow-right-long" />
+      </button>
+    );
+  }
 
   useEffect(() => {
     async function fetchPrice() {
@@ -91,18 +127,7 @@ function CardNFT(props) {
           </label>
         </div>
 
-        {price.owner?.toLowerCase() !== wallet.address ? (
-          <button type="button" className="card__content--btn" onClick={handleBuyNFT(item)}>
-            <span className="buy-now">Buy now</span>
-            <i className="fa-solid fa-arrow-right-long" />
-          </button>
-        ) : (
-          <button type="button" className="card__content--btn" onClick={handleCancelNFT(item)}>
-            <span className="buy-now">Cancel</span>
-            <i className="fa-solid fa-arrow-right-long" />
-          </button>
-        )}
-
+        {buttonContent}
       </div>
     </div>
     )

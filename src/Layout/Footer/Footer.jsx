@@ -12,7 +12,7 @@ function Footer(props) {
       <div className="footer__content">
         <div className="footer__content--colContainer">
           <div className="footer__content--col">
-            <Link to="/" className="nav-link nav-link__btn">
+            <Link to="/all-nfts" className="nav-link nav-link__btn">
               MARKETPLACE
             </Link>
 
@@ -22,7 +22,7 @@ function Footer(props) {
           </div>
 
           <div className="footer__content--col">
-            <Link to="/" className="nav-link nav-link__btn">
+            <Link to={LOCATION.MY_COLLECTION} className="nav-link nav-link__btn">
               MY ACCOUNT
             </Link>
 
@@ -55,7 +55,7 @@ function Footer(props) {
           <Link to="/" className="nav-link">News</Link> */}
           </div>
 
-          <div className="footer__content--col">
+          {/* <div className="footer__content--col">
             <Link to="/" className="nav-link nav-link__btn">
               RESOURCES
             </Link>
@@ -65,7 +65,7 @@ function Footer(props) {
             <Link to="/" className="nav-link">Blog </Link>
 
             <Link to="/" className="nav-link">Help Center</Link>
-          </div>
+          </div> */}
         </div>
       </div>
 

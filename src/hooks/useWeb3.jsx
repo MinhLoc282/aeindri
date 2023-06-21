@@ -69,7 +69,7 @@ export function Web3Provider({ children }) {
 
       const chainId = await web3.eth.getChainId();
 
-      if (chainId !== '0x13881') {
+      if (chainId !== 80001) {
         await window.ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [

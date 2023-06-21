@@ -7,9 +7,9 @@ function AllBrands() {
   return (
     <div className={styles.Brand}>
       <Link to="create-brand" className={styles.Btn}>Create brand</Link>
-      <div className={styles.BrandItems}>
+      {/* <div className={styles.BrandItems}>
         Item
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,34 +1,34 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-// import img1 from 'assets/img/img-1.jpg';
-// import img2 from 'assets/img/img-2.jpg';
-// import img3 from 'assets/img/img-3.jpg';
-// import img4 from 'assets/img/img-4.jpg';
-// import img5 from 'assets/img/img-5.jpg';
-// import img6 from 'assets/img/img-6.jpg';
+import { actionGetMarketPlace } from 'store/actions';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import './Album.scss';
 
-function Album(props) {
-  const { marketItem } = props;
+function Album() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.MarketPlaces);
+
+  useEffect(() => {
+    dispatch(actionGetMarketPlace());
+  }, []);
 
   return (
     <div className="album">
       <div className="album__items">
-        {marketItem.slice(0, 2).map((item) => (
-          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={item.tokenId}>
+        {data.marketPlace && data.marketPlace?.slice(0, 2).map((item) => (
+          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={uuidv4()}>
             <div className="card">
               <img
                 alt="img"
-                src={`https://res.cloudinary.com/vinhhoang/image/upload/v1673882158/aeindri/${item.tokenId}`}
+                src={item.media[0].gateway}
                 className="card--img"
                 width="222px"
                 height="148px"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
               />
 
               <div className="card--content">
@@ -43,16 +43,16 @@ function Album(props) {
       </div>
 
       <div className="album__items">
-        {marketItem.slice(2, 4).map((item) => (
-          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={item.tokenId}>
-            <div className="card" key={item.tokenId}>
+        {data.marketPlace?.slice(2, 4).map((item) => (
+          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={uuidv4()}>
+            <div className="card">
               <img
                 alt="img"
-                src={`https://res.cloudinary.com/vinhhoang/image/upload/v1673882158/aeindri/${item.tokenId}`}
+                src={item.media[0].gateway}
                 className="card--img"
                 width="222px"
                 height="124px"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
               />
 
               <div className="card--content">
@@ -67,16 +67,16 @@ function Album(props) {
       </div>
 
       <div className="album__items">
-        {marketItem.slice(4, 6).map((item) => (
-          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={item.tokenId}>
-            <div className="card" key={item.tokenId}>
+        {data.marketPlace?.slice(4, 6).map((item) => (
+          <Link to="/all-nfts" style={{ textDecoration: 'none', color: 'black' }} key={uuidv4()}>
+            <div className="card">
               <img
                 alt="img"
-                src={`https://res.cloudinary.com/vinhhoang/image/upload/v1673882158/aeindri/${item.tokenId}`}
+                src={item.media[0].gateway}
                 className="card--img"
                 width="222px"
                 height="143px"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
               />
 
               <div className="card--content">
@@ -92,10 +92,5 @@ function Album(props) {
     </div>
   );
 }
-
-Album.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  marketItem: PropTypes.array.isRequired,
-};
 
 export default Album;

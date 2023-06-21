@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -20,6 +20,8 @@ function CardNFT(props) {
   const dispatch = useDispatch();
 
   const [price, setPrice] = useState('');
+  const [approvedNFT, setApprovedNFT] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const image = item.media?.[0]?.gateway || item.image;
   const title = item.title || item.rawMetadata?.name;
@@ -30,22 +32,14 @@ function CardNFT(props) {
   };
 
   const handleSellNFT = (data) => async () => {
-    const addressApproved = await getApprovedNFT({
-      collectionAddress: data.contract.address,
-      tokenId: data.tokenId,
-    });
-
-    if (addressApproved === '0x0000000000000000000000000000000000000000') {
-      await approveNFT({
-        collectionAddress: data.contract.address,
-        tokenId: data.tokenId,
-      });
-    } else {
+    if (approvedNFT) {
+      setLoading(true);
       const success = await sellNFT({
         token: data.contract.address,
         tokenId: data.tokenId,
         price,
       });
+      setLoading(false);
 
       if (success) {
         dispatch(actionRemoveCollection({ tokenId: data.tokenId, address: data.contract.address }));
@@ -54,6 +48,71 @@ function CardNFT(props) {
       }
     }
   };
+
+  const handleApproveNFT = (data) => async () => {
+    if (!approvedNFT) {
+      setLoading(true);
+      await approveNFT({
+        collectionAddress: data.contract.address,
+        tokenId: data.tokenId,
+      });
+      setLoading(false);
+
+      setApprovedNFT(true);
+    }
+  };
+
+  let buttonContent;
+  if (!approvedNFT) {
+    if (loading) {
+      buttonContent = <span>Loading...</span>;
+    } else {
+      buttonContent = (
+        <button
+          type="button"
+          className="card__content--btn"
+          onClick={handleApproveNFT(item)}
+          disabled={loading}
+        >
+          <span className="buy-now">Approve Token</span>
+          <i className="fa-solid fa-arrow-right-long" />
+        </button>
+      );
+    }
+  } else if (loading) {
+    buttonContent = <span>Loading...</span>;
+  } else {
+    buttonContent = (
+      <button
+        type="button"
+        className="card__content--btn"
+        onClick={handleSellNFT(item)}
+        disabled={loading}
+      >
+        <span className="buy-now">Sell now</span>
+        <i className="fa-solid fa-arrow-right-long" />
+      </button>
+    );
+  }
+
+  useEffect(() => {
+    const checkApproveNFT = async () => {
+      if (item.contract.address && item.tokenId) {
+        const addressApproved = await getApprovedNFT({
+          collectionAddress: item.contract.address,
+          tokenId: item.tokenId,
+        });
+
+        if (addressApproved !== '0x0000000000000000000000000000000000000000') {
+          setApprovedNFT(true);
+        } else {
+          setApprovedNFT(false);
+        }
+      }
+    };
+
+    checkApproveNFT();
+  }, [item.contract.address, item.tokenId]);
 
   return (
     item.tokenId && item.title && (
@@ -80,10 +139,7 @@ function CardNFT(props) {
           />
         </div>
 
-        <button type="button" className="card__content--btn" onClick={handleSellNFT(item)}>
-          <span className="buy-now">Sell now</span>
-          <i className="fa-solid fa-arrow-right-long" />
-        </button>
+        {buttonContent}
       </div>
     </div>
     )

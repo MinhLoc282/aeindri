@@ -19,7 +19,6 @@ import LoginPage from 'pages/LoginPage/LoginPage';
 import UserPage from 'pages/UserPage/UserPage';
 import Layout from 'Layout/Layout';
 import WertWidgetWrapper from 'components/WertWidget/WertWidgetWrapper';
-import AllCollections from 'pages/AllCollection/AllCollections';
 
 import axiosClient from 'utils/axios';
 
@@ -43,7 +42,6 @@ function App() {
           <Route path={LOCATION.ESG_PAGE} component={ESGPage} exact />
           <Route path={LOCATION.ALL_NFT} component={AllNFTs} />
           <Route path={LOCATION.ALL_BRANDS} component={AllBrands} />
-          <Route path={LOCATION.ALL_COLLECTIONS} component={AllCollections} />
 
           <Route path={LOCATION.CREATE_BRAND} component={CreatePage} />
 

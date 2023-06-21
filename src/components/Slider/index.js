@@ -1,16 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { actionGetMarketPlace } from 'store/actions';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import './Slider.scss';
 
-function Slider(props) {
-  const { marketItem } = props;
+function Slider() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.MarketPlaces);
+
+  const mappedItems = useMemo(
+    () => data.marketPlace?.slice(0, 6).map((item, index) => (
+      <label htmlFor={`s${index + 1}`} id={`slider${index + 1}`} key={uuidv4()}>
+        <img
+          src={item.media[0].gateway}
+          alt="Slider"
+          className="slider__item--img"
+          width="404px"
+          height="205px"
+          style={{ objectFit: 'contain' }}
+        />
+      </label>
+    )),
+    [data.marketPlace],
+  );
 
   const [checked, setChecked] = useState(1);
 
   const onCheck = (e) => {
     setChecked(Number(e.target.value));
   };
+
+  useEffect(() => {
+    dispatch(actionGetMarketPlace());
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -26,9 +51,7 @@ function Slider(props) {
 
   return (
     <div className="slider">
-      <div className="slider__title">
-        FEATURED COLLECTION
-      </div>
+      <div className="slider__title">FEATURED COLLECTION</div>
 
       <div className="slider__item">
         <input type="checkbox" name="slider" id="s1" onChange={onCheck} value={1} checked={checked === 1} />
@@ -38,26 +61,10 @@ function Slider(props) {
         <input type="checkbox" name="slider" id="s5" onChange={onCheck} value={5} checked={checked === 5} />
         <input type="checkbox" name="slider" id="s6" onChange={onCheck} value={6} checked={checked === 6} />
 
-        {marketItem.map((item, index) => (
-          <label htmlFor={`s${index + 1}`} id={`slider${index + 1}`} key={item.tokenId}>
-            <img
-              src={`https://res.cloudinary.com/vinhhoang/image/upload/v1673882158/aeindri/${item.tokenId}`}
-              alt="Slider"
-              className="slider__item--img"
-              width="404px"
-              height="205px"
-              style={{ objectFit: 'cover' }}
-            />
-          </label>
-        ))}
+        {mappedItems}
       </div>
     </div>
   );
 }
-
-Slider.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  marketItem: PropTypes.array.isRequired,
-};
 
 export default Slider;

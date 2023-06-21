@@ -45,8 +45,6 @@ function CardNFT(props) {
       const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
       const success = await cancelListing({ listingId });
 
-      console.log(success);
-
       if (success) {
         dispatch(actionRemoveNft({ tokenId: data.tokenId, address: data.contract.address }));
       } else {

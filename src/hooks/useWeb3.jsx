@@ -180,7 +180,7 @@ export function Web3Provider({ children }) {
       toast.success('Successfully purchase NFT');
       return 1;
     } catch (error) {
-      console.error(error);
+      toast.error(error);
       return 0;
     }
   };
@@ -194,7 +194,7 @@ export function Web3Provider({ children }) {
         .approve(MARKET_PLACE_ADDRESS, data.tokenId)
         .send({ from: wallet.address });
     } catch (error) {
-      console.error(error);
+      toast.error(error);
     }
   };
 
@@ -209,7 +209,7 @@ export function Web3Provider({ children }) {
 
       return res;
     } catch (error) {
-      console.error(error);
+      toast.error(error);
       return 0;
     }
   };
@@ -223,7 +223,7 @@ export function Web3Provider({ children }) {
 
       return res;
     } catch (error) {
-      console.error(error);
+      toast.error(error);
       return 0;
     }
   };
@@ -237,7 +237,7 @@ export function Web3Provider({ children }) {
 
       return res;
     } catch (error) {
-      console.error(error);
+      toast.error(error);
       return 0;
     }
   };
@@ -318,7 +318,7 @@ export function Web3Provider({ children }) {
 
       toast.success('NFT minted successfully');
     } catch (error) {
-      console.error(error);
+      toast.error(error);
     }
   };
 
@@ -356,9 +356,7 @@ export function Web3Provider({ children }) {
   };
 
   useEffect(() => {
-    if (typeof window.ethereum !== 'undefined') {
-      console.log('e');
-    } else {
+    if (typeof window.ethereum === 'undefined') {
       toast.error('Please install MetaMask', { toastId: 'install' });
     }
   }, []);

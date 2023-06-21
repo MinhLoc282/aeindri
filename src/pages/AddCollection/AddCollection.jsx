@@ -28,7 +28,6 @@ function AddCollection() {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
@@ -61,12 +60,8 @@ function AddCollection() {
   });
 
   const onChangeImg = (e) => {
-    setLoadingUploadImg(true);
-
     const files = Array.from(e.target.files);
     setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
-
-    setLoadingUploadImg(false);
   };
 
   const removeImage = (index, e) => {
@@ -109,15 +104,12 @@ function AddCollection() {
         const uploadedImages = await Promise.all(uploadPromises);
 
         validation.setFieldValue('images', uploadedImages);
+
         if (wallet.address === '') {
-          connect().then(async () => {
-            await Promise.all(uploadPromises);
-            validation.handleSubmit();
-          });
-        } else {
-          await Promise.all(uploadPromises);
-          validation.handleSubmit();
+          await connect();
         }
+
+        await validation.handleSubmit();
 
         setLoadingUploadImg(false);
       } catch (error) {
@@ -147,6 +139,9 @@ function AddCollection() {
             onChange={validation.handleChange}
             value={validation.values.collectionName}
           />
+          {validation.touched.collectionName && validation.errors.collectionName && (
+            <div className="error-message">{validation.errors.collectionName}</div>
+          )}
         </div>
 
         <div className="add-collection__wrapper--form-control">
@@ -164,6 +159,9 @@ function AddCollection() {
             onChange={validation.handleChange}
             value={validation.values.description}
           />
+          {validation.touched.description && validation.errors.description && (
+            <div className="error-message">{validation.errors.description}</div>
+          )}
         </div>
 
         <div className="add-collection__wrapper--form-control">
@@ -181,6 +179,9 @@ function AddCollection() {
             onChange={validation.handleChange}
             value={validation.values.artistName}
           />
+          {validation.touched.artistName && validation.errors.artistName && (
+            <div className="error-message">{validation.errors.artistName}</div>
+          )}
         </div>
 
         <div className="add-collection__wrapper--form-control">
@@ -216,6 +217,9 @@ function AddCollection() {
               </div>
             )}
           </label>
+          {validation.touched.images && validation.errors.images && (
+            <div className="error-message">{validation.errors.images}</div>
+          )}
         </div>
 
         <button

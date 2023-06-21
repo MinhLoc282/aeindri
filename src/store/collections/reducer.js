@@ -20,6 +20,9 @@ import {
   UPDATE_COLLECTION_ADDRESS,
   UPDATE_COLLECTION_ADDRESS_SUCCESS,
   UPDATE_COLLECTION_ADDRESS_FAILED,
+  REMOVE_COLLECTION,
+  REMOVE_COLLECTION_SUCCESS,
+  REMOVE_COLLECTION_FAILED,
 } from './actionTypes';
 
 const initialState = {
@@ -170,6 +173,28 @@ const collections = (state = initialState, action) => {
       };
 
     case UPDATE_COLLECTION_ADDRESS_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case REMOVE_COLLECTION:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case REMOVE_COLLECTION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        myCollections: state.myCollections.filter(
+          (collection) => collection.contract.address !== action.payload.address
+            || collection.tokenId !== action.payload.tokenId,
+        ),
+      };
+
+    case REMOVE_COLLECTION_FAILED:
       return {
         ...state,
         loading: false,

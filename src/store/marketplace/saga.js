@@ -9,6 +9,7 @@ import {
   GET_MARKET_PLACE,
   SELL_NFT,
   BUY_NFT,
+  REMOVE_NFT,
 } from './actionTypes';
 
 import {
@@ -18,12 +19,14 @@ import {
   actionSellNFTFailed,
   actionBuyNFTSuccess,
   actionBuyNFTFailed,
+  actionRemoveNftSuccess,
+  actionRemoveNftFailed,
 } from './actions';
 
 function* getMarketPlace() {
   try {
     const response = yield marketplaceAPI.getMarketPlace();
-    yield put(actionGetMarketPlaceSuccess(response.data));
+    yield put(actionGetMarketPlaceSuccess(response.data.list));
   } catch (error) {
     apiErrorHandler(error);
     yield put(actionGetMarketPlaceFailed());
@@ -62,8 +65,18 @@ function* buyNFT(action) {
   }
 }
 
+function* removeNft(action) {
+  try {
+    yield put(actionRemoveNftSuccess(action.payload));
+  } catch (error) {
+    apiErrorHandler(error);
+    yield put(actionRemoveNftFailed());
+  }
+}
+
 export default function* CollectionSaga() {
   yield takeLeading(GET_MARKET_PLACE, getMarketPlace);
   yield takeLeading(SELL_NFT, sellNFT);
   yield takeLeading(BUY_NFT, buyNFT);
+  yield takeLeading(REMOVE_NFT, removeNft);
 }

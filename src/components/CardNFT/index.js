@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import PropTypes from 'prop-types';
 
 import useWeb3 from 'hooks/useWeb3';
+
+import { actionRemoveCollection } from 'store/actions';
 
 import './Card.scss';
 
 function CardNFT(props) {
   const { item } = props;
 
-  const [price, setPrice] = useState('');
-
   const {
     sellNFT, approveNFT, getApprovedNFT,
   } = useWeb3();
+
+  const dispatch = useDispatch();
+
+  const [price, setPrice] = useState('');
 
   const image = item.media?.[0]?.gateway || item.image;
   const title = item.title || item.rawMetadata?.name;
@@ -34,11 +41,17 @@ function CardNFT(props) {
         tokenId: data.tokenId,
       });
     } else {
-      await sellNFT({
+      const success = await sellNFT({
         token: data.contract.address,
         tokenId: data.tokenId,
         price,
       });
+
+      if (success) {
+        dispatch(actionRemoveCollection({ tokenId: data.tokenId, address: data.contract.address }));
+      } else {
+        toast.error('Sell NFT failed');
+      }
     }
   };
 

@@ -159,8 +159,10 @@ export function Web3Provider({ children }) {
         .send({ from: wallet.address });
 
       toast.success('Successfully list NFT');
+      return 1;
     } catch (error) {
       toast.error(error);
+      return 0;
     }
   };
 
@@ -176,8 +178,10 @@ export function Web3Provider({ children }) {
         .send({ from: wallet.address, value: data.price });
 
       toast.success('Successfully purchase NFT');
+      return 1;
     } catch (error) {
       console.error(error);
+      return 0;
     }
   };
 
@@ -250,8 +254,11 @@ export function Web3Provider({ children }) {
         .send({ from: wallet.address });
 
       toast.success('Successfully cancel list NFT');
+
+      return 1;
     } catch (error) {
       toast.error(error);
+      return 0;
     }
   };
 
@@ -308,6 +315,8 @@ export function Web3Provider({ children }) {
         .methods
         .mint(wallet.address, data.numberOfTokens)
         .send({ from: wallet.address });
+
+      toast.success('NFT minted successfully');
     } catch (error) {
       console.error(error);
     }

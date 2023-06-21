@@ -20,7 +20,7 @@ function AllNFTs() {
   return (
     <div className="nft">
       <div className="nft--item">
-        {data.marketPlace && data.marketPlace?.list?.length > 0 && data.marketPlace.list
+        {data.marketPlace && data.marketPlace?.length > 0 && data.marketPlace
           .map((item) => <CardNFT key={uuidv4()} item={item} />)}
       </div>
     </div>

@@ -8,6 +8,9 @@ import {
   BUY_NFT,
   BUY_NFT_SUCCESS,
   BUY_NFT_FAILED,
+  REMOVE_NFT,
+  REMOVE_NFT_SUCCESS,
+  REMOVE_NFT_FAILED,
 } from './actionTypes';
 
 export const actionGetMarketPlace = () => ({
@@ -49,4 +52,18 @@ export const actionBuyNFTSuccess = (payload) => ({
 
 export const actionBuyNFTFailed = () => ({
   type: BUY_NFT_FAILED,
+});
+
+export const actionRemoveNft = (payload) => ({
+  type: REMOVE_NFT,
+  payload,
+});
+
+export const actionRemoveNftSuccess = (payload) => ({
+  type: REMOVE_NFT_SUCCESS,
+  payload,
+});
+
+export const actionRemoveNftFailed = () => ({
+  type: REMOVE_NFT_FAILED,
 });

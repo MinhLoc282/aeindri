@@ -15,6 +15,7 @@ import {
   DECLINE_COLLECTION,
   GET_MY_COLLECTION,
   UPDATE_COLLECTION_ADDRESS,
+  REMOVE_COLLECTION,
 } from './actionTypes';
 
 import {
@@ -32,6 +33,8 @@ import {
   actionDeclineCollectionFailed,
   actionUpdateCollectionAddressSuccess,
   actionUpdateCollectionAddressFailed,
+  actionRemoveCollectionSuccess,
+  actionRemoveCollectionFailed,
 } from './actions';
 
 function* getAllCollections() {
@@ -135,6 +138,15 @@ function* updateCollectionAddress(action) {
   }
 }
 
+function* removeCollection(action) {
+  try {
+    yield put(actionRemoveCollectionSuccess(action.payload));
+  } catch (error) {
+    apiErrorHandler(error);
+    yield put(actionRemoveCollectionFailed());
+  }
+}
+
 export default function* CollectionsSaga() {
   yield takeLeading(GET_ALL_COLLECTIONS, getAllCollections);
   yield takeLeading(GET_USER_COLLECTIONS, getUserCollections);
@@ -143,4 +155,5 @@ export default function* CollectionsSaga() {
   yield takeLeading(APPROVE_COLLECTION, approveCollection);
   yield takeLeading(DECLINE_COLLECTION, declineCollection);
   yield takeLeading(UPDATE_COLLECTION_ADDRESS, updateCollectionAddress);
+  yield takeLeading(REMOVE_COLLECTION, removeCollection);
 }

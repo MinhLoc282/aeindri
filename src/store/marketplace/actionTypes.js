@@ -9,3 +9,7 @@ export const SELL_NFT_FAILED = 'SELL_NFT_FAILED';
 export const BUY_NFT = 'BUY_NFT';
 export const BUY_NFT_SUCCESS = 'BUY_NFT_SUCCESS';
 export const BUY_NFT_FAILED = 'BUY_NFT_FAILED';
+
+export const REMOVE_NFT = 'REMOVE_NFT';
+export const REMOVE_NFT_SUCCESS = 'REMOVE_NFT_SUCCESS';
+export const REMOVE_NFT_FAILED = 'REMOVE_NFT_FAILED';

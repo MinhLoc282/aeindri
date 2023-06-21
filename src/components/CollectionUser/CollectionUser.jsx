@@ -3,8 +3,11 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import useWeb3 from 'hooks/useWeb3';
+
 import { actionUpdateCollectionAddress } from 'store/actions';
+
 import styles from './CollectionUser.module.scss';
 
 function Brand(props) {

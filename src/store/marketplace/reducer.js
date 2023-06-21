@@ -8,6 +8,9 @@ import {
   BUY_NFT,
   BUY_NFT_SUCCESS,
   BUY_NFT_FAILED,
+  REMOVE_NFT,
+  REMOVE_NFT_SUCCESS,
+  REMOVE_NFT_FAILED,
 } from './actionTypes';
 
 const initialState = {
@@ -68,6 +71,28 @@ const marketPlaceReducer = (state = initialState, action) => {
       };
 
     case BUY_NFT_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case REMOVE_NFT:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case REMOVE_NFT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        marketPlace: state.marketPlace.filter(
+          (collection) => collection.contract.address !== action.payload.address
+            || collection.tokenId !== action.payload.tokenId,
+        ),
+      };
+
+    case REMOVE_NFT_FAILED:
       return {
         ...state,
         loading: false,

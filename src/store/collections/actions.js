@@ -20,6 +20,9 @@ import {
   UPDATE_COLLECTION_ADDRESS,
   UPDATE_COLLECTION_ADDRESS_SUCCESS,
   UPDATE_COLLECTION_ADDRESS_FAILED,
+  REMOVE_COLLECTION,
+  REMOVE_COLLECTION_SUCCESS,
+  REMOVE_COLLECTION_FAILED,
 } from './actionTypes';
 
 export const actionGetAllCollections = () => ({
@@ -117,4 +120,18 @@ export const actionUpdateCollectionAddressSuccess = (payload) => ({
 
 export const actionUpdateCollectionAddressFailed = () => ({
   type: UPDATE_COLLECTION_ADDRESS_FAILED,
+});
+
+export const actionRemoveCollection = (payload) => ({
+  type: REMOVE_COLLECTION,
+  payload,
+});
+
+export const actionRemoveCollectionSuccess = (payload) => ({
+  type: REMOVE_COLLECTION_SUCCESS,
+  payload,
+});
+
+export const actionRemoveCollectionFailed = () => ({
+  type: REMOVE_COLLECTION_FAILED,
 });

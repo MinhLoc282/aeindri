@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import PropTypes from 'prop-types';
 
 import useWeb3 from 'hooks/useWeb3';
+
+import { actionRemoveNft } from 'store/actions';
 
 import './Card.scss';
 
@@ -12,6 +17,8 @@ function CardNFT(props) {
     wallet, buyNFT, getListingId, getPrice, cancelListing,
   } = useWeb3();
 
+  const dispatch = useDispatch();
+
   const image = item.media?.[0]?.gateway || item.image;
   const title = item.title || item.rawMetadata?.name;
   const description = item.description || item.rawMetadata?.description;
@@ -19,13 +26,35 @@ function CardNFT(props) {
   const [price, setPrice] = useState(0);
 
   const handleBuyNFT = (data) => async () => {
-    const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
-    await buyNFT({ listingId, price: price.price });
+    try {
+      const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
+      const success = await buyNFT({ listingId, price: price.price });
+
+      if (success) {
+        dispatch(actionRemoveNft({ tokenId: data.tokenId, address: data.contract.address }));
+      } else {
+        toast.error('Buy NFT failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleCancelNFT = (data) => async () => {
-    const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
-    await cancelListing({ listingId });
+    try {
+      const listingId = await getListingId({ token: data.contract.address, tokenId: data.tokenId });
+      const success = await cancelListing({ listingId });
+
+      console.log(success);
+
+      if (success) {
+        dispatch(actionRemoveNft({ tokenId: data.tokenId, address: data.contract.address }));
+      } else {
+        toast.error('Cancel listing failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -79,7 +108,6 @@ function CardNFT(props) {
       </div>
     </div>
     )
-
   );
 }
 

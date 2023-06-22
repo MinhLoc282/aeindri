@@ -26,13 +26,13 @@ function Footer(props) {
               MY ACCOUNT
             </Link>
 
-            <Link to="/profile" className="nav-link">
+            {/* <Link to="/profile" className="nav-link">
               Profile
             </Link>
 
             <Link to="/" className="nav-link">
               My Creations
-            </Link>
+            </Link> */}
 
             <Link to={LOCATION.MY_COLLECTION} className="nav-link">
               My Collections
@@ -42,7 +42,7 @@ function Footer(props) {
 
         <div className="footer__content--colContainer">
           <div className="footer__content--col">
-            <Link to="/" className="nav-link nav-link__btn">
+            <Link to="/about" className="nav-link nav-link__btn">
               COMPANY
             </Link>
 

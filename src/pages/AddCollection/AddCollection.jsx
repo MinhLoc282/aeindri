@@ -86,19 +86,15 @@ function AddCollection() {
           const formData = new FormData();
           formData.append('image', file);
 
-          return mediaAPI
-            .uploadImage(formData)
-            .then((response) => {
-              if (response && response.data) {
-                return response.data;
-              }
-              toast.error('Error occurred while uploading an image.');
-              return null;
-            })
-            .catch(() => {
-              toast.error('Error occurred while uploading an image.');
-              return null;
-            });
+          try {
+            const response = await mediaAPI.uploadImage(formData);
+            if (response && response.data) {
+              return response.data;
+            }
+            throw new Error('Error occurred while uploading an image.');
+          } catch (error) {
+            throw new Error('Error occurred while uploading an image.');
+          }
         });
 
         const uploadedImages = await Promise.all(uploadPromises);

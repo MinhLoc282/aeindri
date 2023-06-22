@@ -121,7 +121,7 @@ function CardNFT(props) {
 
       <div className="card__content">
         <span className="card__content--title">{title}</span>
-        <span className="card__content--discription">{description}</span>
+        <span className="card__content--discription">{description.length > 35 ? `${description.slice(0, 35)}...` : description}</span>
         <span className="card__content--money">
           Token Id:
           {' '}
